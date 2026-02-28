@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: flag-quiz
+
+server:
+  port: ${PORT:8080}

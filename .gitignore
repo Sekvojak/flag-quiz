@@ -1,0 +1,50 @@
+# Maven build
+target/
+
+# Maven wrapper jar (neignoruj wrapper skripty!)
+.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VS Code
+.vscode/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Eclipse / STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Build folders
+build/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Environment variables
+.env
+
+# Optional local data
+data/

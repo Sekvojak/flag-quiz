@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class CountryNameService {
@@ -40,6 +41,10 @@ public class CountryNameService {
     public boolean hasName(String code) {
         if (code == null) return false;
         return namesByCode.containsKey(code.toLowerCase());
+    }
+
+    public Set<String> codes() {
+        return namesByCode.keySet();
     }
 
 }

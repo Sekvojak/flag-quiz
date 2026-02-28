@@ -8,21 +8,17 @@ import java.util.List;
 @RestController
 public class CountryController {
 
-    private final FlagService flagService;
     private final CountryNameService nameService;
 
-    public CountryController(FlagService flagService, CountryNameService nameService) {
-        this.flagService = flagService;
+    public CountryController(CountryNameService nameService) {
         this.nameService = nameService;
     }
 
     @GetMapping("/api/countries")
     public List<Country> countries() {
-        List<String> codes = flagService.listFlagCodes();
-        return codes.stream()
-                .filter(nameService::hasName)   // len tie, čo sú v JSON
+        return nameService.codes().stream()
+                .sorted()
                 .map(code -> new Country(nameService.getNameOrFallback(code), code))
                 .toList();
     }
-
 }

@@ -6,45 +6,65 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CountryNameService {
 
-    private final Map<String, String> namesByCode;
+    private final Map<String, List<String>> namesByCode;
 
     public CountryNameService() {
         this.namesByCode = load();
     }
 
-    private Map<String, String> load() {
+    private Map<String, List<String>> load() {
         try (InputStream is = new ClassPathResource("countries-sk.json").getInputStream()) {
             ObjectMapper om = new ObjectMapper();
-            Map<String, String> map = om.readValue(is, new TypeReference<>() {});
-            // normalizuj kľúče na lowercase (pre istotu)
-            return map.entrySet().stream()
-                    .collect(java.util.stream.Collectors.toMap(
-                            e -> e.getKey().toLowerCase(),
-                            Map.Entry::getValue
-                    ));
+
+            Map<String, Object> raw = om.readValue(is, new TypeReference<>() {});
+
+            Map<String, List<String>> result = new HashMap<>();
+
+            for (Map.Entry<String, Object> entry : raw.entrySet()) {
+                String code = entry.getKey().toLowerCase();
+                Object value = entry.getValue();
+
+                if (value instanceof String s) {
+                    result.put(code, List.of(s));
+                } else if (value instanceof List<?> list) {
+                    List<String> names = list.stream()
+                            .filter(Objects::nonNull)
+                            .map(Object::toString)
+                            .collect(Collectors.toList());
+                    result.put(code, names);
+                }
+            }
+
+            return result;
+
         } catch (Exception e) {
             throw new RuntimeException("Neviem načítať countries-sk.json", e);
         }
     }
 
-    public String getNameOrFallback(String code) {
+    public String getPrimaryName(String code) {
         if (code == null) return null;
-        return namesByCode.getOrDefault(code.toLowerCase(), code.toLowerCase());
+        List<String> names = namesByCode.get(code.toLowerCase());
+        if (names == null || names.isEmpty()) return code.toLowerCase();
+        return names.get(0);
+    }
+
+    public List<String> getAllNames(String code) {
+        if (code == null) return List.of();
+        return namesByCode.getOrDefault(code.toLowerCase(), List.of(code.toLowerCase()));
     }
 
     public boolean hasName(String code) {
-        if (code == null) return false;
         return namesByCode.containsKey(code.toLowerCase());
     }
 
     public Set<String> codes() {
         return namesByCode.keySet();
     }
-
 }

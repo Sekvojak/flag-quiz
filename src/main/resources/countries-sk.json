@@ -28,7 +28,11 @@
   "by": "Bielorusko",
   "bz": "Belize",
   "ca": "Kanada",
-  "cd": "Konžská demokratická republika",
+  "cd": [
+    "Konžská demokratická republika",
+    "Demokratická republika Kongo",
+    "KDR"
+  ],
   "cf": "Stredoafrická republika",
   "cg": "Konžská republika",
   "ch": "Švajčiarsko",
@@ -60,7 +64,10 @@
   "fo": "Faerské ostrovy",
   "fr": "Francúzsko",
   "ga": "Gabon",
-  "gb": "Spojené kráľovstvo",
+  "gb": [
+    "Spojené kráľovstvo",
+    "Veľká Británia"
+  ],
   "gd": "Grenada",
   "ge": "Gruzínsko",
   "gh": "Ghana",

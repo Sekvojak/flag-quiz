@@ -104,8 +104,9 @@
         .replace(/\s+/g, " ");
     }
 
-    function isCorrect(user, expected) {
-      return norm(user) === norm(expected);
+    function isCorrect(user, answers) {
+      const u = norm(user);
+      return answers.some(answer => norm(answer) === u);
     }
 
     function focusNextFrom(startIndex) {
@@ -148,7 +149,7 @@
           if (!running) return;
           if (input.disabled) return;
 
-          if (isCorrect(input.value, c.name)) {
+          if (isCorrect(input.value, c.answers)) {
             input.value = c.name;
             input.disabled = true;
             card.classList.add("solved");

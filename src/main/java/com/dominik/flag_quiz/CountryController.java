@@ -18,7 +18,11 @@ public class CountryController {
     public List<Country> countries() {
         return nameService.codes().stream()
                 .sorted()
-                .map(code -> new Country(nameService.getNameOrFallback(code), code))
+                .map(code -> new Country(
+                        nameService.getPrimaryName(code),
+                        code,
+                        nameService.getAllNames(code)
+                ))
                 .toList();
     }
 }
